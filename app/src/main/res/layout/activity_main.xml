@@ -109,27 +109,30 @@
                         android:textColor="@color/white"
                         android:textSize="13sp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spMake"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
                         android:background="@drawable/bg_edittext"
-                        android:hint="Any make"
+                        android:elevation="5dp"
                         android:padding="5dp"
                         android:paddingStart="15dp"
                         android:textSize="12sp" />
 
-                    <com.google.android.material.textfield.TextInputEditText
+                    <androidx.appcompat.widget.AppCompatSpinner
+                        android:id="@+id/spModel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="15dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginRight="15dp"
                         android:background="@drawable/bg_edittext"
-                        android:hint="Any model"
+                        android:elevation="5dp"
                         android:padding="5dp"
                         android:paddingStart="15dp"
                         android:textSize="12sp" />
-
                 </LinearLayout>
 
             </LinearLayout>

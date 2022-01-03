@@ -15,6 +15,9 @@ interface CarDao {
     @Query("SELECT * FROM cars_data_table")
     fun getAllCars(): Flow<List<Car>>
 
-    @Insert
-    fun insertCarsData(objects: Array<Car>): Array<Long>
+    @Query("SELECT make FROM cars_data_table")
+    fun getAllMake(): Flow<List<String>>
+
+    @Query("SELECT model FROM cars_data_table")
+    fun getAllModel(): Flow<List<String>>
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.*
 import com.example.guidomia.db.Car
 import com.example.guidomia.db.CarRepository
 import com.google.gson.Gson
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
@@ -40,4 +41,15 @@ class TacomaViewModel(private val repository: CarRepository) : ViewModel() {
             }
         }
 
+    fun getAllMake() = liveData {
+        repository.allMake.collect {
+            emit(it)
+        }
+    }
+
+    fun getAllModel() = liveData {
+        repository.allModel.collect {
+            emit(it)
+        }
+    }
 }

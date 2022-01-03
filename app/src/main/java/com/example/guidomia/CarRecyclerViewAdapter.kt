@@ -10,14 +10,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.guidomia.databinding.ItemCarBinding
 import com.example.guidomia.db.Car
 import java.text.DecimalFormat
+import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.math.floor
 import kotlin.math.log10
 import kotlin.math.pow
 
 class CarRecyclerViewAdapter(var context: Context) :
     RecyclerView.Adapter<MyViewHolder>() {
+    var localItems = ArrayList<Car>()
 
-    private val cars = ArrayList<Car>()
+    private var cars = ArrayList<Car>()
     var selectedPosition = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -51,8 +54,44 @@ class CarRecyclerViewAdapter(var context: Context) :
     fun setList(cars: List<Car>) {
         this.cars.clear()
         this.cars.addAll(cars)
+        this.localItems = this.cars
     }
 
+    fun filterMake(text: String) {
+        val newItems: ArrayList<Car> = arrayListOf()
+        if (text.isNotEmpty()) {
+            for (newItem in localItems) {
+                if (newItem.make.lowercase(Locale.US).contains(
+                        text.lowercase(
+                            Locale.US
+                        )
+                    )
+                ) {
+                    newItems.add(newItem)
+                }
+            }
+            this.cars = newItems
+        }
+        notifyDataSetChanged()
+    }
+
+    fun filterModel(text: String) {
+        val newItems: ArrayList<Car> = arrayListOf()
+        if (text.isNotEmpty()) {
+            for (newItem in localItems) {
+                if (newItem.model.lowercase(Locale.US).contains(
+                        text.lowercase(
+                            Locale.US
+                        )
+                    )
+                ) {
+                    newItems.add(newItem)
+                }
+            }
+            this.cars = newItems
+        }
+        notifyDataSetChanged()
+    }
 }
 
 class MyViewHolder(val binding: ItemCarBinding) : RecyclerView.ViewHolder(binding.root) {
