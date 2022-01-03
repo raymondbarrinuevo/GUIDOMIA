@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.example.guidomia.databinding.ActivityMainBinding
 import com.example.guidomia.db.Car
 import com.example.guidomia.db.CarRepository
@@ -35,28 +36,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         binding.carsRecyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = CarRecyclerViewAdapter { selectedItem: Car -> listItemClicked(selectedItem) }
+        adapter = CarRecyclerViewAdapter(this)
         binding.carsRecyclerView.adapter = adapter
+        (binding.carsRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         displayCarDataList()
 
     }
 
     private fun displayCarDataList() {
-//        tacomaViewModel.getSavedCarsData().observe(this, Observer {
-//            adapter.setList(it)
-//            adapter.notifyDataSetChanged()
-//        })
-        tacomaViewModel.itemCars.observe(this, Observer {
-            it.getContentIfNotHandled()?.let {
-                adapter.setList(it.toList())
-                adapter.notifyDataSetChanged()
-            }
+        tacomaViewModel.getSavedCarsData().observe(this, Observer {
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
         })
-
-    }
-
-    private fun listItemClicked(car: Car) {
-        print(car)
-//        tacomaViewModel.initUpdateAndDelete(car)
     }
 }

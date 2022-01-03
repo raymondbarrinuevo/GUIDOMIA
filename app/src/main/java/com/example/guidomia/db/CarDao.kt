@@ -15,7 +15,6 @@ interface CarDao {
     @Query("SELECT * FROM cars_data_table")
     fun getAllCars(): Flow<List<Car>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    @JvmSuppressWildcards
+    @Insert
     fun insertCarsData(objects: Array<Car>): Array<Long>
 }
