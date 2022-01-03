@@ -1,0 +1,126 @@
+package com.example.guidomia
+
+import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
+import com.example.guidomia.databinding.ActivityMainBinding
+import com.example.guidomia.db.Car
+import com.example.guidomia.db.CarRepository
+import com.example.guidomia.db.TacomaDatabase
+
+class MainActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+    private lateinit var tacomaViewModel: TacomaViewModel
+    private lateinit var adapter: CarRecyclerViewAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+
+        val dao = TacomaDatabase.getInstance(application).carDao
+        val repository = CarRepository(dao)
+        val factory = TacomaViewModelFactory(repository)
+        tacomaViewModel = ViewModelProvider(this, factory).get(TacomaViewModel::class.java)
+        binding.myViewModel = tacomaViewModel
+        binding.lifecycleOwner = this
+
+        tacomaViewModel.readAndSaveCarsData(applicationContext)
+
+        initRecyclerView()
+        initCarMakeSpinnerAdapter()
+        initCarModelSpinnerAdapter()
+    }
+
+    private fun initRecyclerView() {
+        binding.carsRecyclerView.layoutManager = LinearLayoutManager(this)
+        adapter = CarRecyclerViewAdapter(this)
+        binding.carsRecyclerView.adapter = adapter
+        (binding.carsRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
+            false
+        displayCarDataList()
+
+    }
+
+    private fun displayCarDataList() {
+        tacomaViewModel.getSavedCarsData().observe(this, Observer {
+            adapter.setList(it)
+            adapter.notifyDataSetChanged()
+        })
+    }
+
+    private fun initCarMakeSpinnerAdapter() {
+        tacomaViewModel.getAllMake().observe(this, Observer {
+
+            val allMake: ArrayList<String> = ArrayList()
+            allMake.addAll(it)
+            allMake.add(0, "All make")
+
+            val adapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item, allMake
+            )
+            binding.spMake.adapter = adapter
+        })
+
+        binding.spMake.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (binding.spMake.selectedItem.toString() != "All make") {
+                    adapter.filterMake(binding.spMake.selectedItem.toString())
+                } else {
+                    displayCarDataList()
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                displayCarDataList()
+            }
+        }
+    }
+
+    private fun initCarModelSpinnerAdapter() {
+        tacomaViewModel.getAllModel().observe(this, Observer {
+            val allModel: ArrayList<String> = ArrayList()
+            allModel.addAll(it)
+            allModel.add(0, "All model")
+            val adapter = ArrayAdapter(
+                this,
+                android.R.layout.simple_spinner_item, allModel
+            )
+            binding.spModel.adapter = adapter
+        })
+
+        binding.spModel.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                if (binding.spModel.selectedItem.toString() != "All model") {
+                    adapter.filterModel(binding.spModel.selectedItem.toString())
+                } else {
+                    displayCarDataList()
+                }
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                displayCarDataList()
+            }
+        }
+    }
+}
