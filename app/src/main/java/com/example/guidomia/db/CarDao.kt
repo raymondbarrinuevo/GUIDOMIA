@@ -20,4 +20,10 @@ interface CarDao {
 
     @Query("SELECT model FROM cars_data_table")
     fun getAllModel(): Flow<List<String>>
+
+    @Query("SELECT model FROM cars_data_table WHERE make = :make")
+    fun getAllModel(make: String): Flow<List<String>>
+
+    @Query("SELECT make FROM cars_data_table WHERE model = :model")
+    fun getAllMake(model: String): Flow<List<String>>
 }
