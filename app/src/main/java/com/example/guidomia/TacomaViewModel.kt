@@ -34,7 +34,7 @@ class TacomaViewModel(private val repository: CarRepository) : ViewModel() {
         }
     }
 
-    fun saveCarData(cars: Array<Car>) =
+    private fun saveCarData(cars: Array<Car>) =
         viewModelScope.launch {
             for (car in cars) {
                 repository.insert(car)
@@ -52,4 +52,17 @@ class TacomaViewModel(private val repository: CarRepository) : ViewModel() {
             emit(it)
         }
     }
+
+    fun getAllModel(make: String) = liveData {
+        repository.getAllModel(make).collect {
+            emit(it)
+        }
+    }
+
+    fun getAllMake(model: String) = liveData {
+        repository.getAllMake(model).collect {
+            emit(it)
+        }
+    }
+
 }

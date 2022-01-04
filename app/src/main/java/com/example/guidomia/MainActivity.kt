@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
@@ -35,8 +36,12 @@ class MainActivity : AppCompatActivity() {
         tacomaViewModel.readAndSaveCarsData(applicationContext)
 
         initRecyclerView()
-        initCarMakeSpinnerAdapter()
-        initCarModelSpinnerAdapter()
+
+        initSpinnerMake()
+        makeSpinnerClickListener()
+
+        initSpinnerModel()
+        modelSpinnerClickListener()
     }
 
     private fun initRecyclerView() {
@@ -56,12 +61,38 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun initCarMakeSpinnerAdapter() {
-        tacomaViewModel.getAllMake().observe(this, Observer {
+    private fun initSpinnerMake() {
+        if (binding.spMake.selectedItem != null) {
+            if (binding.spModel.selectedItem.toString() != "Any model") {
+                tacomaViewModel.getAllMake(binding.spModel.selectedItem.toString())
+                    .observe(this@MainActivity, Observer {
+                        val adapter = ArrayAdapter(
+                            this@MainActivity,
+                            android.R.layout.simple_spinner_item, it
+                        )
+                        binding.spMake.adapter = adapter
+                    })
+            } else {
+                tacomaViewModel.getAllMake().observe(this, Observer {
+                    val allMake: ArrayList<String> = ArrayList()
+                    allMake.addAll(it)
+                    allMake.add(0, "Any make")
 
+                    val adapter = ArrayAdapter(
+                        this,
+                        android.R.layout.simple_spinner_item, allMake
+                    )
+                    binding.spMake.adapter = adapter
+                })
+            }
+        }
+    }
+
+    private fun makeSpinnerClickListener() {
+        tacomaViewModel.getAllMake().observe(this, Observer {
             val allMake: ArrayList<String> = ArrayList()
             allMake.addAll(it)
-            allMake.add(0, "All make")
+            allMake.add(0, "Any make")
 
             val adapter = ArrayAdapter(
                 this,
@@ -77,12 +108,12 @@ class MainActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                if (binding.spMake.selectedItem.toString() != "All make") {
+                if (binding.spMake.selectedItem.toString() != "Any make") {
                     adapter.filterMake(binding.spMake.selectedItem.toString())
                 } else {
                     displayCarDataList()
                 }
-
+                initSpinnerModel()
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -91,18 +122,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initCarModelSpinnerAdapter() {
-        tacomaViewModel.getAllModel().observe(this, Observer {
-            val allModel: ArrayList<String> = ArrayList()
-            allModel.addAll(it)
-            allModel.add(0, "All model")
-            val adapter = ArrayAdapter(
-                this,
-                android.R.layout.simple_spinner_item, allModel
-            )
-            binding.spModel.adapter = adapter
-        })
+    private fun initSpinnerModel() {
+        if (binding.spMake.selectedItem != null) {
+            if (binding.spMake.selectedItem.toString() != "Any make") {
+                tacomaViewModel.getAllModel(binding.spMake.selectedItem.toString())
+                    .observe(this@MainActivity, Observer {
+                        val adapter = ArrayAdapter(
+                            this@MainActivity,
+                            android.R.layout.simple_spinner_item, it
+                        )
+                        binding.spModel.adapter = adapter
+                    })
+            } else {
+                tacomaViewModel.getAllModel().observe(this, Observer {
+                    val allModel: ArrayList<String> = ArrayList()
+                    allModel.addAll(it)
+                    allModel.add(0, "Any model")
+                    val adapter = ArrayAdapter(
+                        this,
+                        android.R.layout.simple_spinner_item, allModel
+                    )
+                    binding.spModel.adapter = adapter
+                })
+            }
+        }
+    }
 
+    private fun modelSpinnerClickListener() {
         binding.spModel.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
                 parent: AdapterView<*>?,
@@ -110,12 +156,11 @@ class MainActivity : AppCompatActivity() {
                 position: Int,
                 id: Long
             ) {
-                if (binding.spModel.selectedItem.toString() != "All model") {
+                if (binding.spModel.selectedItem.toString() != "Any model") {
                     adapter.filterModel(binding.spModel.selectedItem.toString())
                 } else {
                     displayCarDataList()
                 }
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>?) {
