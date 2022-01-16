@@ -8,8 +8,9 @@ import com.bumptech.glide.Glide
 import com.example.guidomia.databinding.ItemMovieBinding
 import com.example.guidomia.db.Movie
 
-class MovieRecyclerViewAdapter() :
+class MovieRecyclerViewAdapter(val listener: MovieAdapterInterface) :
     RecyclerView.Adapter<MyViewHolder>() {
+
     var localItems = ArrayList<Movie>()
 
     private var cars = ArrayList<Movie>()
@@ -22,6 +23,9 @@ class MovieRecyclerViewAdapter() :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bind(cars[position])
+        holder.binding.itemView.setOnClickListener {
+            listener.onItemClick(cars[position])
+        }
     }
 
     override fun getItemCount(): Int {
@@ -47,4 +51,8 @@ class MyViewHolder(val binding: ItemMovieBinding) : RecyclerView.ViewHolder(bind
             .into(binding.ivCar)
     }
 
+}
+
+interface MovieAdapterInterface {
+    fun onItemClick(movie: Movie)
 }

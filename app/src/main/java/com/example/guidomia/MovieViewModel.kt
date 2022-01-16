@@ -2,14 +2,18 @@ package com.example.guidomia
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
+import androidx.lifecycle.viewModelScope
 import com.example.guidomia.db.Movie
 import com.example.guidomia.db.MovieRepository
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.collect
 
 class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
 
     val errorMessage = MutableLiveData<String>()
     val movieList = MutableLiveData<List<Movie>>()
+    val movie = MutableLiveData<Movie>()
     var job: Job? = null
     private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
         onError("Exception handled: ${throwable.localizedMessage}")
@@ -22,6 +26,9 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
             withContext(Dispatchers.Main) {
                 if (response.isSuccessful) {
                     movieList.postValue(filterMovies(response.body()!!.results))
+                    viewModelScope.launch {
+                        repository.insert(filterMovies(response.body()!!.results))
+                    }
                     loading.value = false
                 } else {
                     onError("Error : ${response.message()} ")
@@ -40,6 +47,29 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
         return movies
     }
 
+//    fun getAll() {
+//        CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+//            withContext(Dispatchers.Main) {
+//                repository.movies.collect {
+//                    if (it != null && it.isNotEmpty()) {
+//                        movieList.postValue(it)
+//                    }
+//                    loading.value = false
+//                }
+//            }
+//        }
+//
+//
+//
+//    }
+
+    fun getAll() = liveData {
+        repository.movies.collect {
+            emit(it)
+            loading.value = false
+        }
+    }
+
     private fun onError(message: String) {
         errorMessage.value = message
         loading.value = false
@@ -49,5 +79,4 @@ class MovieViewModel(private val repository: MovieRepository) : ViewModel() {
         super.onCleared()
         job?.cancel()
     }
-
 }

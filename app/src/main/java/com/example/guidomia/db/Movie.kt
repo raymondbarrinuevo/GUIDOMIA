@@ -1,12 +1,13 @@
 package com.example.guidomia.db
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "movie_data_table")
 data class Movie(
-
     @PrimaryKey
     @ColumnInfo(name = "trackId")
     var trackId: Int,
@@ -114,7 +115,7 @@ data class Movie(
     var contentAdvisoryRating: String,
 
     @ColumnInfo(name = "shortDescription")
-    var shortDescription: String,
+    var shortDescription: String = "",
 
     @ColumnInfo(name = "longDescription")
     var longDescription: String,
@@ -122,6 +123,6 @@ data class Movie(
     @ColumnInfo(name = "hasITunesExtras")
     var hasITunesExtras: Boolean
 
-)
+) : Serializable
 
-data class Smuggles(var resultCount: Int, var results: List<Movie>)
+data class Result(var resultCount: Int, var results: List<Movie>)

@@ -26,6 +26,15 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.example.guidomia.MovieDetailActivity"
+            android:configChanges="orientation"
+            android:exported="true"
+            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="stateHidden">
+
+        </activity>
+
     </application>
 
 </manifest>

@@ -1,6 +1,6 @@
 package com.example.guidomia.network
 
-import com.example.guidomia.db.Smuggles
+import com.example.guidomia.db.Result
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -9,7 +9,7 @@ import retrofit2.http.GET
 interface RetrofitService {
 
     @GET("search?term=star&amp;country=au&amp;media=movie&amp;all")
-    suspend fun getAllMovies() : Response<Smuggles>
+    suspend fun getAllMovies() : Response<Result>
 
     companion object {
         var retrofitService: RetrofitService? = null
