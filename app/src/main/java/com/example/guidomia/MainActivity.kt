@@ -33,16 +33,27 @@ class MainActivity : AppCompatActivity() {
         binding.myViewModel = tacomaViewModel
         binding.lifecycleOwner = this
 
-        tacomaViewModel.readAndSaveCarsData(applicationContext)
-
         initRecyclerView()
 
-        initSpinnerMake()
-        makeSpinnerClickListener()
+        movieViewModel.movieList.observe(this, {
+            adapter.setList(it)
+        })
 
-        initSpinnerModel()
-        modelSpinnerClickListener()
+        movieViewModel.errorMessage.observe(this, {
+            Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+        })
+
+        movieViewModel.loading.observe(this, Observer {
+            if (it) {
+                binding.progressDialog.visibility = View.VISIBLE
+            } else {
+                binding.progressDialog.visibility = View.GONE
+            }
+        })
+
+        movieViewModel.getAllMovies()
     }
+
 
     private fun initRecyclerView() {
         binding.carsRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -50,8 +61,6 @@ class MainActivity : AppCompatActivity() {
         binding.carsRecyclerView.adapter = adapter
         (binding.carsRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations =
             false
-        displayCarDataList()
-
     }
 
     private fun displayCarDataList() {

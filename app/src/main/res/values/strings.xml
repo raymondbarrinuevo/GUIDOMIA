@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GUIDOMIA</string>
+    <string name="text_placeholder">dolorem ipsum</string>
+    <string name="kind">Feature Movie</string>
 </resources>
