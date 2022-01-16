@@ -1,4 +1,4 @@
-package com.example.guidomia.db
+package com.example.mon.db
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson

@@ -1,11 +1,11 @@
-package com.example.guidomia
+package com.example.mon
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
-import com.example.guidomia.db.Movie
-import com.example.guidomia.db.MovieRepository
+import com.example.mon.db.Movie
+import com.example.mon.db.MovieRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collect
 

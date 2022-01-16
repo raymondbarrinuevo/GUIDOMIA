@@ -1,12 +1,12 @@
-package com.example.guidomia
+package com.example.mon
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
-import com.example.guidomia.databinding.ActivityMovieDetailBinding
-import com.example.guidomia.db.Movie
+import com.example.mon.databinding.ActivityMovieDetailBinding
+import com.example.mon.db.Movie
 
 class MovieDetailActivity : AppCompatActivity() {
 

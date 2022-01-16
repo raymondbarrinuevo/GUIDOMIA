@@ -1,4 +1,4 @@
-package com.example.guidomia.db
+package com.example.mon.db
 
 import android.content.Context
 import androidx.room.Database

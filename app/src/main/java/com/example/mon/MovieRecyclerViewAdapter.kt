@@ -1,12 +1,12 @@
-package com.example.guidomia
+package com.example.mon
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.guidomia.databinding.ItemMovieBinding
-import com.example.guidomia.db.Movie
+import com.example.mon.databinding.ItemMovieBinding
+import com.example.mon.db.Movie
 
 class MovieRecyclerViewAdapter(val listener: MovieAdapterInterface) :
     RecyclerView.Adapter<MyViewHolder>() {

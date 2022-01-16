@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.guidomia">
+    package="com.example.mon">
 
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
@@ -14,7 +14,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name="com.example.guidomia.MainActivity"
+            android:name="com.example.mon.MainActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="fullSensor"
@@ -27,7 +27,7 @@
         </activity>
 
         <activity
-            android:name="com.example.guidomia.MovieDetailActivity"
+            android:name="com.example.mon.MovieDetailActivity"
             android:configChanges="orientation"
             android:exported="true"
             android:screenOrientation="fullSensor"

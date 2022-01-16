@@ -1,8 +1,8 @@
-package com.example.guidomia
+package com.example.mon
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.example.guidomia.db.MovieRepository
+import com.example.mon.db.MovieRepository
 
 class MovieViewModelFactory(private val repository: MovieRepository) : ViewModelProvider.Factory {
 

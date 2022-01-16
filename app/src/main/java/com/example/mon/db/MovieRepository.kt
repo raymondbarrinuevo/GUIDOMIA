@@ -1,6 +1,6 @@
-package com.example.guidomia.db
+package com.example.mon.db
 
-import com.example.guidomia.network.RetrofitService
+import com.example.mon.network.RetrofitService
 
 class MovieRepository(private val retrofitService: RetrofitService, private val dao: MovieDao) {
 

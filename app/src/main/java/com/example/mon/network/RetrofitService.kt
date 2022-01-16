@@ -1,6 +1,6 @@
-package com.example.guidomia.network
+package com.example.mon.network
 
-import com.example.guidomia.db.Result
+import com.example.mon.db.Result
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

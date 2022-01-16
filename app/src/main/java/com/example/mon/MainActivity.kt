@@ -1,4 +1,4 @@
-package com.example.guidomia
+package com.example.mon
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,11 +11,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import com.example.guidomia.databinding.ActivityMainBinding
-import com.example.guidomia.db.Movie
-import com.example.guidomia.db.MovieDatabase
-import com.example.guidomia.db.MovieRepository
-import com.example.guidomia.network.RetrofitService
+import com.example.mon.databinding.ActivityMainBinding
+import com.example.mon.db.Movie
+import com.example.mon.db.MovieDatabase
+import com.example.mon.db.MovieRepository
+import com.example.mon.network.RetrofitService
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity(), MovieAdapterInterface {
